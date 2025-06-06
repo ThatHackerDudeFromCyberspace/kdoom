@@ -237,7 +237,7 @@ void I_InitInput(void) {
     dev    = libevdev_new();
 	int rc = libevdev_set_fd(dev, evfd);
 	if (rc < 0) {
-		sprintf(stderr, "Failed to initialize libevdev (%s)", strerror(-rc));
+		//sprintf(stderr, "Failed to initialize libevdev (%s)", strerror(-rc));
         init_failed = true;
         return;
 	} else {
@@ -245,7 +245,7 @@ void I_InitInput(void) {
     }
 
     if (libevdev_grab(dev, LIBEVDEV_GRAB) != 0) {
-		sprintf(stderr, "Cannot read input events because the input device is currently grabbed by something else!");
+		//sprintf(stderr, "Cannot read input events because the input device is currently grabbed by something else!");
         init_failed = true;
 		return;
 	} else {
@@ -271,7 +271,7 @@ void I_GetEvent(void) {
         if (errno == EINTR) {
             return;
         }
-        sprintf(stderr, "poll: %m");
+        //sprintf(stderr, "poll: %m");
     } else if (poll_num > 0) {
         if (pfd.revents & POLLIN) {
             struct input_event ev;

@@ -1,0 +1,7 @@
+[wrap-git]
+url = https://gitlab.freedesktop.org/libevdev/libevdev.git
+revision = cfd803566ce743e59e1b6f82140b3a90398614a8
+depth = 1
+
+[provide]
+libevdev=dep_libevdev
