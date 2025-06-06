@@ -277,7 +277,7 @@ void I_GetEvent(void) {
             struct input_event ev;
             while (libevdev_next_event(dev, LIBEVDEV_READ_FLAG_NORMAL, &ev) == 0) {
                 printf("Event: type %d code %d value %d\n", ev.type, ev.code, ev.value);
-                if (ev.type == EV_ABS) {
+                if (ev.type == EV_ABS || ev.type == EV_KEY) {
                     switch (ev.code) {
                         case ABS_MT_POSITION_X:
                             touch_ev.pos.x = ev.value;
@@ -285,14 +285,18 @@ void I_GetEvent(void) {
                         case ABS_MT_POSITION_Y:
                             touch_ev.pos.y = ev.value;
                             break;
+                        /*case ABS_PRESSURE:
+                        case ABS_MT_WIDTH_MAJOR:
                         case ABS_MT_PRESSURE:
-                            if (ev.value > 0) {
-                                touch_ev.down = true;
-                            } else {
-                                touch_ev.down = false;
-                            }
-                            break;
+                            touch_ev.down = ev.value > 0;
+                            break;*/
                     }
+
+                    if (ev.code == BTN_TOUCH)
+                    {
+                        touch_ev.down = ev.value > 0;
+                    }
+                    
                     printf("Touch %s: (%d, %d) \n", touch_ev.down ? "DOWN" : "UP", touch_ev.pos.x, touch_ev.pos.y);
 
                     for (int i = 0; i < sizeof(keys); i++) {
